@@ -157,7 +157,7 @@ class ShipmentFileManager:
         """Replace the address file."""
         self.update_file(
             export_id=export_id,
-            request_class=api_requests.DownloadaddressFile,
+            request_class=api_requests.DownloadAddressFile,
             target_path=self.address_file_path,
         )
 

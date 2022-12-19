@@ -51,36 +51,28 @@ class ShipmentExportsRequest(BaseRequest):
     PATH = "fba/api/shipment_exports"
 
 
-class DownloadShipmentFile(BaseRequest):
+class BaseFileDownloadRequest(BaseRequest):
+    def request_data(self, *args, **kwargs):
+        """Return the request data."""
+        data = super().request_data(*args, **kwargs)
+        data["export_id"] = kwargs["export_id"]
+        return data
+
+    def process_response(self, response, *args, **kwargs):
+        """Return the response object."""
+        return response
+
+
+class DownloadShipmentFile(BaseFileDownloadRequest):
     """Request for downloading an exported shipment file."""
 
     PATH = "fba/api/download_shipment_file"
 
-    def request_data(self, *args, **kwargs):
-        """Return the request data."""
-        data = super().request_data(*args, **kwargs)
-        data["export_id"] = kwargs["export_id"]
-        return data
 
-    def process_response(self, response, *args, **kwargs):
-        """Return the response object."""
-        return response
-
-
-class DownloadaddressFile(BaseRequest):
+class DownloadAddressFile(BaseFileDownloadRequest):
     """Request for downloading a exported address file."""
 
     PATH = "fba/api/download_address_file"
-
-    def request_data(self, *args, **kwargs):
-        """Return the request data."""
-        data = super().request_data(*args, **kwargs)
-        data["export_id"] = kwargs["export_id"]
-        return data
-
-    def process_response(self, response, *args, **kwargs):
-        """Return the response object."""
-        return response
 
 
 class CloseShipments(BaseRequest):
