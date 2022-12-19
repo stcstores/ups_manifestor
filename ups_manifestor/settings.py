@@ -4,7 +4,7 @@ from pathlib import Path
 
 import tomllib
 
-settings_file_path = Path(__file__).parent / "settings.toml"
+settings_file_path = Path.cwd() / "settings.toml"
 
 with open(settings_file_path, "rb") as f:
     SETTINGS = tomllib.load(f)

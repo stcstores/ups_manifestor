@@ -1,6 +1,6 @@
 """Run the UPS Manifestor application."""
 
-from .application import Application, ErrorWindow
+from ups_manifestor.application import Application, ErrorWindow
 
 
 def main():
