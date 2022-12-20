@@ -2,7 +2,8 @@
 
 import PySimpleGUI as sg
 
-from . import exceptions, models, settings
+from . import exceptions, models
+from .settings import Settings
 
 
 class Application:
@@ -21,18 +22,25 @@ class Application:
 
     def __init__(self):
         """Initialise the application."""
-        self.current_shipments = models.CurrentShipments()
-        self.shipment_exports = models.ShipmentExports()
-        self.shipment_file_manager = models.ShipmentFileManager()
+        self.initialise_models()
         self.next_page = MainMenu
         self.current_page = MainMenu
-        sg.theme(settings.THEME)
+        sg.theme(Settings.THEME)
         self.window = sg.Window(
             self.TITLE,
             layout=self.layout(),
-            size=(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT),
+            size=(Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT),
         )
         self.mainloop()
+        self.window.close()
+
+    def initialise_models(self):
+        """Load models."""
+        self.current_shipments = models.CurrentShipments()
+        self.shipment_exports = models.ShipmentExports()
+        self.shipment_file_manager = models.ShipmentFileManager()
+        self.current_shipments.update()
+        self.shipment_exports.update()
 
     def change_page(self):
         """Swap columns to change the page layout."""
@@ -48,7 +56,7 @@ class Application:
             try:
                 self.current_page.mainloop(self)
             except exceptions.CloseProgramRequest:
-                exit()
+                return
             self.change_page()
 
     def update(self):

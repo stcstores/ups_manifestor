@@ -3,7 +3,8 @@
 import csv
 from pathlib import Path
 
-from . import api_requests, settings
+from . import api_requests
+from .settings import Settings
 
 
 class CurrentShipments:
@@ -25,9 +26,10 @@ class CurrentShipments:
         ORDER_NUMBER,
     )
 
-    def __init__(self):
+    def update(self):
         """Get currently open shipments from the server."""
-        self.update()
+        data = api_requests.CurrentShipmentsRequest().request()
+        self.shipments = data["shipments"]
 
     def get_display_rows(self):
         """Return contents for the table display."""
@@ -35,11 +37,6 @@ class CurrentShipments:
             [shipment.get(col) for col in self.shipment_keys]
             for shipment in self.shipments
         ]
-
-    def update(self):
-        """Get currently open shipments from the server."""
-        data = api_requests.CurrentShipmentsRequest().request()
-        self.shipments = data["shipments"]
 
     def close_shipments(self):
         """Close all currently open shipments and return the ID of the created export."""
@@ -67,20 +64,16 @@ class ShipmentExports:
         ORDER_NUMBERS,
     )
 
-    def __init__(self):
+    def update(self):
         """Update the list of shipment exports."""
-        self.update()
+        data = api_requests.ShipmentExportsRequest().request()
+        self.exports = data["exports"]
 
     def get_display_rows(self):
         """Return contents for the table display."""
         return [
             [export.get(col) for col in self.export_keys] for export in self.exports
         ]
-
-    def update(self):
-        """Update the list of shipment exports."""
-        data = api_requests.ShipmentExportsRequest().request()
-        self.exports = data["exports"]
 
 
 class ShipmentFileManager:
@@ -95,11 +88,11 @@ class ShipmentFileManager:
 
     def __init__(self):
         """Get file paths."""
-        self.shipment_directory = Path(settings.SHIPMENT_DIRECTORY)
+        self.shipment_directory = Path(Settings.SHIPMENT_DIRECTORY)
         self.commodities_file_path = (
-            self.shipment_directory / settings.COMMODITIES_FILE_NAME
+            self.shipment_directory / Settings.COMMODITIES_FILE_NAME
         )
-        self.address_file_path = self.shipment_directory / settings.ADDRESS_FILE_NAME
+        self.address_file_path = self.shipment_directory / Settings.ADDRESS_FILE_NAME
 
     def get_file_status(self, file_path, order_number_column, start_row, end_row):
         """Return a string representation of the status of a file."""
@@ -108,9 +101,10 @@ class ShipmentFileManager:
         else:
             try:
                 data = self.read_csv(file_path)
-                order_ids = set(
+                order_ids = [
                     row[order_number_column] for row in data[start_row:end_row]
-                )
+                ]
+                order_ids = sorted(list(set(order_ids)))
                 return ", ".join(order_ids)
             except Exception:
                 return "Invalid"

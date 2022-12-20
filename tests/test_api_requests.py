@@ -50,11 +50,11 @@ def base_request():
     return request
 
 
-def test_make_url(mock_settings):
+def test_make_url(load_settings):
     assert api_requests.BaseRequest().make_url("page") == "https://test.com/page"
 
 
-def test_request_data(mock_settings):
+def test_request_data(load_settings):
     assert api_requests.BaseRequest().request_data() == {"token": "TEST_TOKEN"}
 
 
@@ -122,7 +122,7 @@ def test_make_request_returns_response(
 
 
 class TestBaseFileDownloadRequest:
-    def test_request_data(self, mock_settings):
+    def test_request_data(self, load_settings):
         export_id = 11
         assert api_requests.BaseFileDownloadRequest().request_data(
             export_id=export_id

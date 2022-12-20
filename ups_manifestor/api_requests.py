@@ -2,7 +2,8 @@
 
 import requests
 
-from . import exceptions, settings
+from . import exceptions
+from .settings import Settings
 
 
 class BaseRequest:
@@ -10,11 +11,11 @@ class BaseRequest:
 
     def make_url(self, path):
         """Return the request URL."""
-        return f"{settings.PROTOCOL}://{settings.DOMAIN}/{path}"
+        return f"{Settings.PROTOCOL}://{Settings.DOMAIN}/{path}"
 
     def request_data(self, *args, **kwargs):
         """Return request data."""
-        return {"token": settings.TOKEN}
+        return {"token": Settings.TOKEN}
 
     def make_request(self, *args, **kwargs):
         """Make an HTTP request and return the response."""
@@ -52,6 +53,8 @@ class ShipmentExportsRequest(BaseRequest):
 
 
 class BaseFileDownloadRequest(BaseRequest):
+    """Base class for file download requests."""
+
     def request_data(self, *args, **kwargs):
         """Return the request data."""
         data = super().request_data(*args, **kwargs)
