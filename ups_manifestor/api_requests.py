@@ -78,7 +78,13 @@ class DownloadAddressFile(BaseFileDownloadRequest):
     PATH = "fba/api/download_address_file"
 
 
-class CloseShipments(BaseRequest):
+class CloseShipment(BaseRequest):
     """Request to close open shipments."""
 
-    PATH = "fba/api/close_shipments"
+    PATH = "fba/api/close_shipment"
+
+    def request_data(self, *args, **kwargs):
+        """Return the request data."""
+        data = super().request_data(*args, **kwargs)
+        data["shipment_id"] = kwargs["shipment_id"]
+        return data

@@ -16,6 +16,11 @@ def shipment():
     }
 
 
+@pytest.fixture
+def shipment_id():
+    return 12
+
+
 def test_update_method_makes_request(mock_api_requests):
     CurrentShipments().update()
     mock_api_requests.CurrentShipmentsRequest.assert_called_once_with()
@@ -49,17 +54,19 @@ def test_get_display_rows_method(shipment):
     assert current_shipments.get_display_rows() == expected
 
 
-def test_close_shipments_method_makes_request(mock_api_requests):
-    CurrentShipments().close_shipments()
-    mock_api_requests.CloseShipments.assert_called_once_with()
-    mock_api_requests.CloseShipments.return_value.request.assert_called_once_with()
+def test_close_shipments_method_makes_request(mock_api_requests, shipment_id):
+    CurrentShipments().close_shipment(shipment_id=shipment_id)
+    mock_api_requests.CloseShipment.assert_called_once_with()
+    mock_api_requests.CloseShipment.return_value.request.assert_called_once_with(
+        shipment_id=shipment_id
+    )
 
 
-def test_close_shipments_method_returns_export_id(mock_api_requests):
-    returned_value = CurrentShipments().close_shipments()
+def test_close_shipments_method_returns_export_id(mock_api_requests, shipment_id):
+    returned_value = CurrentShipments().close_shipment(shipment_id=shipment_id)
     assert (
         returned_value
-        == mock_api_requests.CloseShipments.return_value.request.return_value[
+        == mock_api_requests.CloseShipment.return_value.request.return_value[
             "export_id"
         ]
     )

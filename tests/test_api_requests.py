@@ -137,3 +137,12 @@ class TestBaseFileDownloadRequest:
             response
         )
         assert returned_value == response
+
+
+class TestCloseShipmentRequest:
+    def test_request_data(self, load_settings):
+        shipment_id = 12
+        assert api_requests.CloseShipment().request_data(shipment_id=shipment_id) == {
+            "token": "TEST_TOKEN",
+            "shipment_id": shipment_id,
+        }

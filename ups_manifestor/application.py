@@ -126,9 +126,12 @@ class Application:
         export_id = export[self.shipment_exports.ID]
         self.shipment_file_manager.update_shipping_files(export_id=export_id)
 
-    def close_shipments(self):
+    def close_shipment(self, shipment_index):
         """Close open shipments and update the shipping files."""
-        export_id = self.current_shipments.close_shipments()
+        shipment = self.current_shipments.shipments[shipment_index]
+        export_id = self.current_shipments.close_shipment(
+            shipment[self.current_shipments.ID]
+        )
         self.shipment_file_manager.update_shipping_files(export_id)
 
 
@@ -178,9 +181,20 @@ class CurrentShipments:
     def mainloop(application):
         """Process the current shipments page."""
         while True:
-            event, _ = application.window.read()
+            event, values = application.window.read()
+            print(values)
+            if event == application.CURRENT_SHIPMENT_TABLE:
+                if len(values[application.CURRENT_SHIPMENT_TABLE]) == 1:
+                    application.window[application.CREATE_SHIPMENT_EXPORT].update(
+                        disabled=False
+                    )
+                else:
+                    application.window[application.CREATE_SHIPMENT_EXPORT].update(
+                        disabled=True
+                    )
             if event == application.CREATE_SHIPMENT_EXPORT:
-                application.close_shipments()
+                shipment_index = values[application.CURRENT_SHIPMENT_TABLE][0]
+                application.close_shipment(shipment_index=shipment_index)
                 application.next_page = MainMenu
                 break
             if event == application.CURRENT_SHIPMENT_CANCEL:
@@ -196,7 +210,7 @@ class CurrentShipments:
             [sg.Text(CurrentShipments.name)],
             [cls.create_table()],
             [
-                sg.Button(Application.CREATE_SHIPMENT_EXPORT),
+                sg.Button(Application.CREATE_SHIPMENT_EXPORT, disabled=True),
                 sg.Button("Cancel", key=Application.CURRENT_SHIPMENT_CANCEL),
             ],
         ]
@@ -219,7 +233,7 @@ class CurrentShipments:
             col_widths=(35, 20, 10, 12, 10, 20),
             num_rows=22,
             key=Application.CURRENT_SHIPMENT_TABLE,
-            enable_events=False,
+            enable_events=True,
             justification="left",
         )
 

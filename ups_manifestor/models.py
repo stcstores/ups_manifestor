@@ -38,9 +38,9 @@ class CurrentShipments:
             for shipment in self.shipments
         ]
 
-    def close_shipments(self):
+    def close_shipment(self, shipment_id):
         """Close all currently open shipments and return the ID of the created export."""
-        data = api_requests.CloseShipments().request()
+        data = api_requests.CloseShipment().request(shipment_id=shipment_id)
         return data["export_id"]
 
 
