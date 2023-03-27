@@ -10,6 +10,7 @@ def shipment():
         "description": "shipment description text",
         "order_number": "AAA1554",
         "destination": "shipment destination",
+        "user": "AUser",
         "package_count": 5,
         "weight": 250,
         "value": "25.60",
@@ -45,6 +46,7 @@ def test_get_display_rows_method(shipment):
         [
             "shipment description text",
             "shipment destination",
+            "AUser",
             5,
             250,
             "25.60",

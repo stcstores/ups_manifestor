@@ -221,6 +221,7 @@ class CurrentShipments:
         headings = [
             "Shipment Order",
             "Destination",
+            "User",
             "Package Count",
             "Weight (Kg)",
             "Value",
@@ -230,7 +231,7 @@ class CurrentShipments:
             values=[[]],
             headings=headings,
             auto_size_columns=False,
-            col_widths=(35, 20, 10, 12, 10, 20),
+            col_widths=(35, 20, 10, 10, 12, 10, 20),
             num_rows=22,
             key=Application.CURRENT_SHIPMENT_TABLE,
             enable_events=True,

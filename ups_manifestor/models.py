@@ -14,12 +14,14 @@ class CurrentShipments:
     DESCRIPTION = "description"
     ORDER_NUMBER = "order_number"
     DESTINATION = "destination"
+    USER = "user"
     PACKAGE_COUNT = "package_count"
     WEIGHT = "weight"
     VALUE = "value"
     shipment_keys = (
         DESCRIPTION,
         DESTINATION,
+        USER,
         PACKAGE_COUNT,
         WEIGHT,
         VALUE,
