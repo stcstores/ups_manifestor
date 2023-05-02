@@ -270,18 +270,18 @@ pydocstyle = ">=2.1"
 
 [[package]]
 name = "flake8-pyi"
-version = "23.4.1"
+version = "23.5.0"
 description = "A plugin for flake8 to enable linting .pyi stub files."
 category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "flake8_pyi-23.4.1-py3-none-any.whl", hash = "sha256:f5769ce269b9d09862942ea5f54611556f8d545246bfa65c7fb8e421af9470a2"},
-    {file = "flake8_pyi-23.4.1.tar.gz", hash = "sha256:da93fa23b52b24dfc56d8898c5d4a125662941a86048847e119dbe5d4cf0aa6e"},
+    {file = "flake8_pyi-23.5.0-py3-none-any.whl", hash = "sha256:6806822a7eea0343b2583c088d73983b7c0c022b3810f403fd1b6edda053b7e1"},
+    {file = "flake8_pyi-23.5.0.tar.gz", hash = "sha256:a1038d5a4bb679fb0c142c5ed14da308c6ef99b0138ff5f5e6c65e47d2a7d23e"},
 ]
 
 [package.dependencies]
-flake8 = ">=3.2.1,<7.0.0"
+flake8 = ">=5.0.4,<7.0.0"
 pyflakes = ">=2.1.1"
 
 [package.extras]
