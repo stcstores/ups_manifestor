@@ -12,7 +12,7 @@ omit = ["tests/*",]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pysimplegui = "^4.60.4"
+pysimplegui = "^4.60.5"
 requests = "^2.30.0"
 toml = "^0.10.2"
 
